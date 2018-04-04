@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Seedess Video Player">
+    <meta name="author" content="seedess">
+    <base href="/">
+
+    <title>Seedess Torrent Video Player</title>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.0.11/plyr.css" />
+</head>
+
+<body id="page-top" class="dark-theme">
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+
+    <div id="root"></div>
+
+    <!-- externals -->
+    <script src="js/Chart.bundle.min.js"></script>
+    <script src="js/webtorrent.min.js"></script>
+    <script src="http://localhost:8003/socket.io/socket.io.js"></script>
+
+    <!-- video plyr -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <script src="https://cdn.plyr.io/3.0.11/plyr.js"></script>
+
+    <script>
+    // initialize plyr
+    window.addEventListener('DOMContentLoaded', function() {
+        var player = new Plyr('video')
+    })
+    </script>
+
+</body>
+
+</html>
+
