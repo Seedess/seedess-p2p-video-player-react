@@ -51,13 +51,13 @@ export default class LiveVideoPlayer extends EventedComponent {
         this.emit('play', [this])
       })
     } else {
-      console.warn('Cannot play video, no torrents found')
+      debug('Cannot play video, no torrents found')
     }
   }
 
   monitorTorrentStats(torrent) {
     if (!torrent) {
-      console.error('Monitored torrent is invalid', torrent)
+      debug('Monitored torrent is invalid', torrent)
       return
     }
     clearInterval(this.torrentStatsUpdateInterval)

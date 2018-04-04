@@ -58,7 +58,7 @@ export default class VideoPlayer extends EventedComponent {
 
   monitorTorrentStats(torrent) {
     if (!torrent) {
-      console.error('Monitored torrent is invalid', torrent)
+      debug('Monitored torrent is invalid', torrent)
       return
     }
     clearInterval(this.torrentStatsUpdateInterval)

@@ -1,6 +1,5 @@
 var stream = require('./stream')
 var path = require('path')
-var prettyBytes = require('pretty-bytes')
 var parseTorrent = require('parse-torrent')
 var EventEmitter = require('events').EventEmitter
 var $ = document.querySelectorAll.bind(document) // todo

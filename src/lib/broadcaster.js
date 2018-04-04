@@ -103,7 +103,7 @@ export default class Broadcaster extends EventEmitter {
       }
 
       const onMediaError = (e) => {
-        console.error('media error', e);
+        debug('media error', e);
       }
       
       mediaConstraints = Object.assign({
