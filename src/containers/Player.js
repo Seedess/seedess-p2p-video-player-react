@@ -2,6 +2,7 @@ import React from 'react'
 import EventedComponent from '../lib/evented-component'
 import VideoPlayer from '../components/VideoPlayer'
 import Chart from '../components/Chart'
+import PieChart from '../components/PieChart'
 import '../styles/player.css'
 
 import queryString from 'query-string'
@@ -76,6 +77,7 @@ export default class Player extends EventedComponent {
         video={video} ref={this.videoRef}
       />
       <Chart video={this} />
+      <PieChart video={this} />
     </div>)
   }
 }

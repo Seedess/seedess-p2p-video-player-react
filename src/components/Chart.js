@@ -1,5 +1,6 @@
 // requires chart.js 
 import React from 'react'
+import { getPeerType, getPeerById, getPeerWire } from '../lib/webtorrent'
 const debug = require('debug')('torrent-video-player:Chart')
 const Chart = global.Chart
 
@@ -8,12 +9,13 @@ let context, chart
 const updateIntervalMs = 1000
 const maxDatasetLen = 20
 const  chartColors = {
-    webSeed: '#e91f62',
-    peer: '#03a9f4', 
-    default: '#4caf50',
-    peer2: '#9c27b0',
+    webSeed: '#03a9f4',
+    webrtc: '#e91f62', 
+    bitTorrent: '#4caf50',
+    default: '#9c27b0',
     orange: '#f44336',
-    gray: '#eeeeee'
+    gray: '#cccccc',
+    black: '#000000'
 }
 const datasetDefault = {
     label: 'Peer',
@@ -43,7 +45,7 @@ const loadChart = (context) => {
             responsive: true,
             title: {
                 display: true,
-                text: 'CDN Traffic vs Peer Traffic'
+                text: 'Live Traffic'
             },
             tooltips: {
                 mode: 'index'
@@ -74,6 +76,21 @@ const loadChart = (context) => {
     
 }
 
+const peerTypes = {
+    'webSeed': 'CDN',
+    'webrtc': 'Peer',
+    'bitTorrent': 'BitTorrent'
+}
+
+const getPeerColor = (peer) => {
+    return chartColors[getPeerType(peer)] || chartColors.default
+}
+
+const getPeerLabel = (peer, num) => {
+    const type = getPeerType(peer)
+    return peerTypes[type] + ' ' + (num + 1)
+}
+
 export default class ChartComponent extends React.Component {
 
     updateInterval = null
@@ -84,8 +101,9 @@ export default class ChartComponent extends React.Component {
         let peers = []
         props.video.on('torrent', torrent => {
             debug('torrent available', torrent)
-            torrent.on('wire', peer => {
-                debug('new wire', peer)
+            torrent.on('peer', (id) => {
+                const peer = getPeerById(torrent, id)
+                debug('new peer', id, peer)
                 peers.push(peer)
             })
             torrent.on('ready', function() {
@@ -95,23 +113,26 @@ export default class ChartComponent extends React.Component {
                         chart.data.labels.shift()
                     }
                     peers.forEach( (peer, i) => {
+                        if (!peer.connected || !peer.wire || !peer.conn) return
                         let dataset = chart.data.datasets[i]
                         if (!dataset) {
-                            const num = chart.data.datasets.filter(dataset => dataset.peerType == peer.type).length
-                            const color = chartColors[Object.keys(chartColors)[i]]
+                            const num = chart.data.datasets.filter(dataset => {
+                                return dataset.peerType === getPeerType(peer)
+                            }).length
+                            const color = getPeerColor(peer)
                             dataset = {...datasetDefault}
                             dataset = {
                                 ...dataset, 
                                 ...{
-                                    peerType: peer.type,
-                                    label: (peer.type === 'webSeed' ? 'CDN ' : 'Peer ') + (num + 1),
+                                    peerType: getPeerType(peer),
+                                    label: getPeerLabel(peer, num),
                                     data: [],
                                     borderColor: color,
                                     backgroundColor: color + 10
                                 }
                             }
                         }
-                        dataset.data.push(peer.downloadSpeed() / 1000)
+                        dataset.data.push(peer.wire.downloadSpeed() / 1000)
                         if (dataset.data.length > maxDatasetLen) {
                             dataset.data.shift()
                         }
