@@ -1,12 +1,12 @@
 // requires chart.js 
 import React from 'react'
-import { getPeerType, getPeerById, getPeerWire } from '../lib/webtorrent'
+import { getPeerType, getPeerById, getPeerWire, getPeers } from '../lib/webtorrent'
 const debug = require('debug')('torrent-video-player:PieChart')
 const Chart = global.Chart
 
 let context, chart
 
-const updateIntervalMs = 1000
+const updateIntervalMs = 2000
 
 const data = {
     labels: [
@@ -67,16 +67,20 @@ const loadChart = (context) => {
 }
 
 let updateChartInterval
-const updateChartInit = (peers) => {
-    debug('updateChartInit', chart, peers)
+const updateChartInit = (torrent) => {
+    debug('updateChartInit', chart, torrent)
     const updateChart = () => {
+        const peers = getPeers(torrent)
         debug('updateChart', chart, peers)
         const data = chart.data.datasets[0].data.map( (value, i) => {
             const peerType = peerTypes[i]
             const peersOfSameType = peers
                 .filter(peer => getPeerType(peer) === peerType)
             const totalDownload =  peersOfSameType
-                .reduce( (downloaded, peer) => downloaded + peer.wire && peer.wire.downloaded, 0)
+                .reduce( (downloaded, peer) => {
+                    const wire = getPeerWire(torrent, peer)
+                    return downloaded + ((wire && wire.downloaded) || peer.downloaded || 0)
+                }, 0)
             debug('type, same, total', peerType, peersOfSameType, totalDownload)
             return totalDownload
         })
@@ -97,6 +101,7 @@ export default class ChartComponent extends React.Component {
         super()
         debug('render chart', props)
         let peers = []
+        let wires = []
         props.video.on('torrent', torrent => {
             debug('torrent available', torrent)
             torrent.on('peer', (id) => {
@@ -104,8 +109,12 @@ export default class ChartComponent extends React.Component {
                 debug('new peer', id, peer)
                 peers.push(peer)
             })
+            torrent.on('wire', (wire) => {
+                debug('new wire', wire)
+                wires.push(wire)
+            })
             torrent.on('ready', () => {
-              updateChartInit(peers)
+              updateChartInit(torrent, peers)
             })
         })
     }

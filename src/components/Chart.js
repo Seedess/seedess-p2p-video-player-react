@@ -1,6 +1,6 @@
 // requires chart.js 
 import React from 'react'
-import { getPeerType, getPeerById, getPeerWire } from '../lib/webtorrent'
+import { getPeerType, getPeerById, getPeerWire, getPeers } from '../lib/webtorrent'
 const debug = require('debug')('torrent-video-player:Chart')
 const Chart = global.Chart
 
@@ -98,22 +98,17 @@ export default class ChartComponent extends React.Component {
     constructor(props) {
         super()
         debug('render chart', props)
-        let peers = []
         props.video.on('torrent', torrent => {
             debug('torrent available', torrent)
-            torrent.on('peer', (id) => {
-                const peer = getPeerById(torrent, id)
-                debug('new peer', id, peer)
-                peers.push(peer)
-            })
-            torrent.on('ready', function() {
+            torrent.on('ready', () => {
                 this.updateInterval = setInterval(() => {
                     chart.data.labels.push(parseInt(chart.data.labels[chart.data.labels.length - 1], 10) + 1)
                     if (chart.data.labels.length > maxDatasetLen) {
                         chart.data.labels.shift()
                     }
+                    const peers = getPeers(torrent)
                     peers.forEach( (peer, i) => {
-                        if (!peer.connected || !peer.wire || !peer.conn) return
+                        const wire = getPeerWire(torrent, peer)
                         let dataset = chart.data.datasets[i]
                         if (!dataset) {
                             const num = chart.data.datasets.filter(dataset => {
@@ -132,7 +127,7 @@ export default class ChartComponent extends React.Component {
                                 }
                             }
                         }
-                        dataset.data.push(peer.wire.downloadSpeed() / 1000)
+                        dataset.data.push( (wire && wire.downloadSpeed() / 1000) || 0)
                         if (dataset.data.length > maxDatasetLen) {
                             dataset.data.shift()
                         }
