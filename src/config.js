@@ -1,7 +1,7 @@
 export default {
   trackers: [
     //'wss://tracker.fastcast.nz',
-    'wss://tracker.torcdn.com'
+    'wss://tracker.seedess.com'
   ],
   searchProxyUrl: '',
 	webseedHostUrl: 'https://cdn.seedess.com/',
