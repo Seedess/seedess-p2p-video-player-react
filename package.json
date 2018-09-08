@@ -24,7 +24,7 @@
     "simple-peer": "^8.1.1",
     "socket.io": "^2.0.3",
     "torrent-tracker": "^0.1.0",
-    "webtorrent": "^0.98.20"
+    "webtorrent": "^0.102.4"
   },
   "scripts": {
     "server": "node prodServer.js",
