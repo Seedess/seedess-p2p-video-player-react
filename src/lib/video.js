@@ -12,7 +12,7 @@ var torrentHostUrl = settings.torrentHostUrl
 global.stream = stream // debugging
 stream.parseTorrent = parseTorrent
 
-var debug = require('debug')('torcdn-torrent')
+var debug = require('debug')('seedess:torrent')
 
 var currentTorrent,
   torrents = [],

@@ -2,6 +2,7 @@ import React from 'react'
 import Viewer from '../components/Viewer'
 import io from '../lib/io'
 import queryString from 'query-string'
+import config from '../config'
 
 const global = global || window
 const params = queryString.parse(global.location.search) // todo: remove
@@ -19,8 +20,7 @@ const video = { title: params.title, peerId: params.peerId }
 
 export default props => {
   
-  // , 'wss://tracker.fastcast.nz'
-  global.WEBTORRENT_ANNOUNCE = ['wss://tracker.torcdn.com']
+  global.WEBTORRENT_ANNOUNCE = config.trackers
   
   const broadcastId = props.match.params.namespace || params.id
 

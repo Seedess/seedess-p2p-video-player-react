@@ -39,8 +39,7 @@ export const getPeerWire = (torrent, peer) => {
  */
 export const getPeerType = peer => {
   if (peer.conn && peer.conn.url) {
-      if (peer.conn.url.match('https://cdn.torcdn.com/') 
-          || peer.conn.url.match('https://cdn.seedess.com/')) {
+      if (peer.conn.url.match('https://cdn.seedess.com/')) {
           return 'bitTorrent'
       }
   }

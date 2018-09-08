@@ -1,5 +1,6 @@
 import MediaStreamRecorder from 'msr'
 import EventEmitter from 'events'
+import config from '../config'
 
 EventEmitter.defaultMaxListeners = 0 // prevent warnings. TODO: remove and fix
 
@@ -69,7 +70,7 @@ export default class Broadcaster extends EventEmitter {
 
       this.emit('recorded', blob, chunkNum)
 
-      const file = new File([blob], `torcdn-broadcast-${chunkNum}.webm`, {
+      const file = new File([blob], `seedess-broadcast-${chunkNum}.webm`, {
         type: 'video/webm'
       })
 
@@ -134,8 +135,8 @@ export default class Broadcaster extends EventEmitter {
   addFileToSeedQueue(file, chunkNum) {
     debug('Adding file to seed queue', file, this.seedQueue)
     const opts = {
-      //announceList: [['https://tracker.torcdn.com/announce']],
-      announce: ['wss://tracker.torcdn.com'],
+      //announceList: [['https://tracker.seedess.com/announce']],
+      announce: config.trackers,
       private: true,
       dht: false
     }

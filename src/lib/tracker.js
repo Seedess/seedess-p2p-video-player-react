@@ -1,9 +1,9 @@
 var Client = require('bittorrent-tracker')
 var crypto = require('crypto')
 var parseTorrent = require('parse-torrent')
-var debug = require('debug')('torcdn-tracker:client')
+var debug = require('debug')('seedess:tracker:client')
 var Peer = require('simple-peer')
-
+var config = require('../config').default
 
 export default function tracker(infoHash, peerId) {
   
@@ -14,10 +14,7 @@ export default function tracker(infoHash, peerId) {
     peerId: peerId,
     infoHash: infoHash,
     port: 6881,
-    announce: [
-      //'https://tracker.torcdn.com/announce',
-      'wss://tracker.torcdn.com'
-    ], // list of tracker server urls
+    announce: config.trackers, // list of tracker server urls
   }
   
   debug('new tracker client', opts)

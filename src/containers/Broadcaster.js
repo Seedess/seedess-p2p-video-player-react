@@ -3,13 +3,14 @@ import Broadcaster from '../components/Broadcaster'
 import crypto from 'crypto'
 import io from '../lib/io'
 import queryString from 'query-string'
+import config from '../config'
 
 const params = queryString.parse(global.location.search) // todo remove
 
 export default props => {
   
   // , 'wss://tracker.fastcast.nz'
-  global.WEBTORRENT_ANNOUNCE = ['wss://tracker.torcdn.com']
+  global.WEBTORRENT_ANNOUNCE = config.trackers
   
   const broadcastId = props.match.params.namespace || params.id || crypto.randomBytes(20).toString('hex')
   const secret = params.secret || crypto.randomBytes(20).toString('hex')

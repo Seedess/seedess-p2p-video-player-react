@@ -1,6 +1,7 @@
 import EventEmitter from 'events'
 import tracker from './tracker'
 import parseTorrent from 'parse-torrent'
+import config from '../config'
 
 const global = global || window
 const WebTorrent = global.WebTorrent
@@ -51,8 +52,8 @@ export default class DownloadQueue extends EventEmitter {
     debug('downloading item', item)
     
     const opts = {
-      //announceList: [['https://tracker.torcdn.com/announce']],
-      announce: ['wss://tracker.torcdn.com'],
+      //announceList: [['https://tracker.seedess.com/announce']],
+      announce: config.trackers,
       dht: false
     }
     
