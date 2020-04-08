@@ -24,7 +24,7 @@
     "simple-peer": "^8.1.1",
     "socket.io": "^2.0.3",
     "torrent-tracker": "^0.1.0",
-    "webtorrent": "^0.102.4"
+    "webtorrent": "^0.108.1"
   },
   "scripts": {
     "server": "node prodServer.js",
@@ -35,9 +35,11 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "build:webtorrent": "browserify src/webtorrent.js > public/js/webtorrent.min.js"
   },
   "devDependencies": {
+    "browserify": "^16.5.1",
     "node-sass-chokidar": "^1.2.2",
     "npm-run-all": "^4.1.2"
   }

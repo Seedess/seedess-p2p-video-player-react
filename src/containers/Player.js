@@ -20,7 +20,7 @@ export default class Player extends EventedComponent {
   videoRef(ref) {
     if (ref) {
       debug('VideoPlayer ref', ref)
-      setImmediate(ref.playVideo())
+      setImmediate(() => ref.playVideo())
       ref.on('play', video => {
         debug('playing video', video)
         this.emit('play', video)
