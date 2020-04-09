@@ -3,9 +3,9 @@ import EventEmitter from 'events'
 const debug = require('debug')('torrent-video-player:lib/PlayQueue')
 
 // play states
-const STATE_INACTIVE = 0
-const STATE_ACTIVE = 1
-const STATE_COMPLETE = 2
+//const STATE_INACTIVE = 0
+//const STATE_ACTIVE = 1
+//const STATE_COMPLETE = 2
 
 /**
  * Manages the chunks played by video player
@@ -48,7 +48,7 @@ export default class PlayQueue extends EventEmitter {
   }
   
   remove(torrent) {
-    this.items = this.items.filter(item => item.infoHash != torrent.infoHash)
+    this.items = this.items.filter(item => item.infoHash !== torrent.infoHash)
     this.emit('remove', torrent)
   }
   

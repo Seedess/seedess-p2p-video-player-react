@@ -1,12 +1,10 @@
-import MediaStreamRecorder from 'msr'
+//import MediaStreamRecorder from 'msr'
 import EventEmitter from 'events'
 import DownloadQueue from './DownloadQueue'
 import PlayQueue from './PlayQueue'
 EventEmitter.defaultMaxListeners = 0 // prevent warnings. TODO: remove and fix
 
-const global = global || window
 const debug = require('debug')('torrent-video-player:lib/viewer')
-const io = global.io
 
 export default class Viewer extends EventEmitter {
   
@@ -50,7 +48,7 @@ export default class Viewer extends EventEmitter {
 
       const play = torrent => {
         this.stream = stream = torrent.files[0].createReadStream()
-        let createSrc = (global.URL) ? global.URL.createObjectURL : stream => stream
+        //let createSrc = (global.URL) ? global.URL.createObjectURL : stream => stream
         debug('stream from torrent', torrent, stream, torrent.files[0])
         // play to file
         torrent.files[0].renderTo($video)

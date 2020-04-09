@@ -71,8 +71,7 @@ export default class VideoViewer extends EventedComponent {
   }
 
   addVideoPlayerEvents(videoEl) {
-    var loadTimer, 
-      buffering,
+    var loadTimer,
       loadInterval = 200,
       hasBeenAutoPlayed = false
 
@@ -82,7 +81,6 @@ export default class VideoViewer extends EventedComponent {
 
     videoEl.addEventListener('timeupdate', event => {
       this.loadingEl.style.display = 'none'
-      buffering = false
 
       if (!hasBeenAutoPlayed && !videoEl.paused) {
         videoEl.play() // fix ff autoplay not working

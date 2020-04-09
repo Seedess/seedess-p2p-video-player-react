@@ -1,10 +1,6 @@
 var stream = require('./stream')
-var path = require('path')
 var parseTorrent = require('parse-torrent')
-var EventEmitter = require('events').EventEmitter
-var $ = document.querySelectorAll.bind(document) // todo
 var settings = require('../settings').default
-var magnet = require('magnet-uri')
 
 var webseedHostUrl = settings.webseedHostUrl
 var torrentHostUrl = settings.torrentHostUrl
@@ -19,12 +15,12 @@ var currentTorrent,
   webseedUpdateIntervalSecs = 5
 
 export default function playVideo(magnetUri, infoHash, videoEl, torrentUrl, done) {
-  var self = this
   
   debug('playVideo: ', infoHash, magnetUri, videoEl, torrentUrl)
 
   // best choice
   if (torrentUrl) {
+    debug('we have a torrentUrl', torrentUrl)
     return streamVideo(torrentUrl, videoEl, done)
   }
 
@@ -53,7 +49,7 @@ function onTorrentStream(torrent, videoEl) {
   torrent.addWebSeed(webSeedUrl) // ensure dynamic webseed
   
   debug('Torrent ready: ', torrent)
-  if (currentTorrent && torrent.infoHash != currentTorrent.infoHash) {
+  if (currentTorrent && torrent.infoHash !== currentTorrent.infoHash) {
     debug('Torrent is not the current playing video..')
   }
 
@@ -70,7 +66,7 @@ function onTorrentStream(torrent, videoEl) {
 }
 
 function addWebSeedIfNoPeers(torrent, url) {
-  if (torrent.wires.length == 0) {
+  if (torrent.wires.length === 0) {
     torrent.addWebSeed(url)
   }
 }
@@ -96,7 +92,10 @@ function getVideoFile(torrent) {
 
 function playMainVideo(torrent, videoEl, done) {
   var file = getVideoFile(torrent)
+
+  if (!videoEl) throw new TypeError('videoEl is not defined')
   
+  debug('rendering to videoEl', { file, videoEl })
   file.renderTo(videoEl)
   setImmediate(() => {
     typeof(done) == 'function' && done(videoEl)

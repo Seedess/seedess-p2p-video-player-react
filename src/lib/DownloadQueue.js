@@ -1,16 +1,15 @@
 import EventEmitter from 'events'
-import tracker from './tracker'
-import parseTorrent from 'parse-torrent'
+//import tracker from './tracker'
+//import parseTorrent from 'parse-torrent'
 import config from '../config'
 
-const global = global || window
 const WebTorrent = global.WebTorrent
 const debug = require('debug')('torrent-video-player:lib/DownloadQueue')
 
 // download states TODO: track progress and drop slow/dead downloads
 const STATE_DOWNLOAD_INACTIVE = 0
 const STATE_DOWNLOAD_ACTIVE = 1
-const STATE_DOWNLOAD_COMPLETE = 2
+//const STATE_DOWNLOAD_COMPLETE = 2
 
 /**
  * Manages the torrent download queue
@@ -64,27 +63,27 @@ export default class DownloadQueue extends EventEmitter {
       this.emit('downloaded', torrent)
     })
     
-    return // TODO remove
-    
+    /*
     var client = tracker(parseTorrent(item.magnetURI).infoHash)
     client.on('peer', function (addr) {
       debug('found a peer: ' + addr) // 85.10.239.191:48623 
     })
+    */
     
   }
   
   downloadNextItemInQueue() {
     debug('downloading next item', this.items)
-    var item = this.items.find(item => item.state == STATE_DOWNLOAD_INACTIVE)
+    var item = this.items.find(item => item.state === STATE_DOWNLOAD_INACTIVE)
     item && this.downloadItem(item)
   }
   
   activeDownloads() {
-    return this.items.filter(item => item.state == STATE_DOWNLOAD_ACTIVE)
+    return this.items.filter(item => item.state === STATE_DOWNLOAD_ACTIVE)
   }
   
   setState(magnetURI, state) {
-    this.items.find(item => item.magnetURI == magnetURI).state = state
+    this.items.find(item => item.magnetURI === magnetURI).state = state
   }
   
   setStateDownloadActive(magnetURI) {
@@ -97,10 +96,10 @@ export default class DownloadQueue extends EventEmitter {
   }
   
   destroyDownloading() {
-    this.items.filter( (item, i) => {
-      if (item.state == STATE_DOWNLOAD_ACTIVE) {
+    this.items.forEach( (item, i) => {
+      if (item.state === STATE_DOWNLOAD_ACTIVE) {
         var torrent = this.broadcaster.get(item.magnetURI)
-        torrent && torrent.destroy() || debug('Missing torrent', item)
+        torrent ? torrent.destroy() : debug('Missing torrent', item)
       }
     })
   }

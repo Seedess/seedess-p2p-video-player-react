@@ -1,6 +1,6 @@
 // requires chart.js 
 import React from 'react'
-import { getPeerType, getPeerById, getPeerWire, getPeers } from '../lib/webtorrent'
+import { getPeerType, getPeerWire, getPeers } from '../lib/webtorrent'
 const debug = require('debug')('torrent-video-player:Chart')
 const Chart = global.Chart
 

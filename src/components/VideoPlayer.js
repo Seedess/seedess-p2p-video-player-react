@@ -93,13 +93,12 @@ export default class VideoPlayer extends EventedComponent {
 
   addVideoPlayerEvents(videoEl) {
     var loadTimer, 
-      buffering = false, 
       loadInterval = 200,
       hasBeenAutoPlayed = false
 
     videoEl.addEventListener('timeupdate', () => {
       this.loadingEl.style.display = 'none'
-      buffering = false
+      this.buffering = false
 
       if (!hasBeenAutoPlayed && !videoEl.paused) {
         try {
@@ -152,7 +151,7 @@ export default class VideoPlayer extends EventedComponent {
           </div>
           <video ref={this.videoRef} autoPlay controls />
         </div>
-        <a href="#" className="close" onClick={this.removeVideoPlayer}><i className="fa fa-close" /></a>
+        <a href="#close" className="close" onClick={this.removeVideoPlayer}><i className="fa fa-close" /></a>
       </div>)
   }
 }

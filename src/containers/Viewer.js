@@ -4,7 +4,6 @@ import io from '../lib/io'
 import queryString from 'query-string'
 import config from '../config'
 
-const global = global || window
 const params = queryString.parse(global.location.search) // todo: remove
 const debug = require('debug')('torrent-video-player:containers/Viewer')
 

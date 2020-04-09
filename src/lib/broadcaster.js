@@ -4,7 +4,6 @@ import config from '../config'
 
 EventEmitter.defaultMaxListeners = 0 // prevent warnings. TODO: remove and fix
 
-const global = global || window
 const WebTorrent = global.WebTorrent
 const debug = require('debug')('torrent-video-player:lib/broadcaster')
 
@@ -126,10 +125,11 @@ export default class Broadcaster extends EventEmitter {
     this.stream.getTracks().forEach((track) => track.stop())
 
     // destroys the broadcasting client and starts back at the beginning
-    return // TODO: remove
+    /*
     this.broadcaster.destroy( () => {
       debug('All torrents destroyed')
     })
+    */
   }
   
   addFileToSeedQueue(file, chunkNum) {
@@ -148,8 +148,8 @@ export default class Broadcaster extends EventEmitter {
       debug('Added torrent to seed queue ', torrent.magnetURI)
       this.broadcastSeedToPeers(torrent.magnetURI, chunkNum)
       if (this.seedQueue.length > this.opts.maxSeeds) {
-        debug('Destroying seed', seed)
         var seed = this.seedQueue.shift()
+        debug('Destroying seed', seed)
         seed.torrent.destroy()
       }
     })

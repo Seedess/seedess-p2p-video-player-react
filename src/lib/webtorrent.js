@@ -25,7 +25,7 @@ export const getPeerById = (torrent, id) => {
  * @param {simple-peer} peer 
  */
 export const getPeerWire = (torrent, peer) => {
-  const wire = peer.wire || torrent.wires.filter(wire => wire.peerId == peer.id)[0]
+  const wire = peer.wire || torrent.wires.filter(wire => wire.peerId === peer.id)[0]
   // cache downloaded as it returns 0 when peer disconnects
   if (wire && wire.downloaded) {
       peer.downloaded = wire.downloaded
@@ -43,7 +43,7 @@ export const getPeerType = peer => {
           return 'bitTorrent'
       }
   }
-  return peer.wire && peer.wire.type || 'webrtc'
+  return peer.wire ? peer.wire.type : 'webrtc'
 }
 
 /**

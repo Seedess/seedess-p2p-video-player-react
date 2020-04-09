@@ -1,6 +1,5 @@
 var Client = require('bittorrent-tracker')
 var crypto = require('crypto')
-var parseTorrent = require('parse-torrent')
 var debug = require('debug')('seedess:tracker:client')
 var Peer = require('simple-peer')
 var config = require('../config').default

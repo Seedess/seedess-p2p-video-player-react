@@ -59,8 +59,7 @@ const loadChart = (context) => {
           animateScale : false,
           responsive: true,
           maintainAspectRatio: true,
-          showScale: true,
-          animateScale: true
+          showScale: true
         }
     }
     chart = new Chart(context, config)

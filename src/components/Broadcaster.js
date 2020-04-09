@@ -71,13 +71,11 @@ export default class VideoBroadcaster extends EventedComponent {
   }
 
   addVideoPlayerEvents(videoEl) {
-    var loadTimer, bufferTimer, buffering = false,
-      bufferInterval = 1000, loadInterval = 2000,
+    var loadTimer, loadInterval = 2000,
       hasBeenAutoPlayed = false
 
     videoEl.addEventListener('timeupdate', () => {
       this.loadingEl.style.display = 'none'
-      buffering = false
 
       clearInterval(loadTimer)
       loadTimer = setInterval(() => {
@@ -123,7 +121,7 @@ export default class VideoBroadcaster extends EventedComponent {
     const broadcastStateText = this.state.broadCasting ? 'Stop Broadcast' : 'Start Broadcast'
     return (<div id="video-player-chrome">
         <h3>Broadcast {this.broadcastId}</h3>
-        <b><a href={`/viewer/${this.broadcastId}`} target="_blank">Viewer link</a></b>
+        <b><a href={`/viewer/${this.broadcastId}`} target="_blank" rel="noopener noreferrer">Viewer link</a></b>
         <div><button onClick={() => this.toggleBroadcast()}>{broadcastStateText}</button></div>
         <div id="video-player">
           <div className="loading" ref={this.loadingRef}>
@@ -134,7 +132,7 @@ export default class VideoBroadcaster extends EventedComponent {
           </div>
           <video ref={this.videoRef} controls />
         </div>
-        <a href="#" className="close" onClick={this.removeVideoPlayer}><i className="fa fa-close" /></a>
+        <a href="#remove-planer" className="close" onClick={this.removeVideoPlayer}><i className="fa fa-close" /></a>
       </div>)
   }
 }
