@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.21.1",
     "bittorrent-dht": "^7.6.0",
     "chart.js": "^2.7.2",
     "debug": "git+https://github.com/fijiwebdesign/debug.git",
