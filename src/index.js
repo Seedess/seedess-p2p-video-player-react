@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Router, Route, Switch } from 'react-router'
-import createBrowserHistory from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 import App from './containers/App'
 import PlayerContainer from './containers/Player'
 import BroadcasterContainer from './containers/Broadcaster'
