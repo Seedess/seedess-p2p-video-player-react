@@ -20,7 +20,7 @@
     "react-dom": "^16.3.0",
     "react-hot-loader": "^3.1.1",
     "react-router": "^4.2.0",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^5.0.1",
     "simple-peer": "^8.1.1",
     "socket.io": "^2.0.3",
     "torrent-tracker": "^0.1.0",
